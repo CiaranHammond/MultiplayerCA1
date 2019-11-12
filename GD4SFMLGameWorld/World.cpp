@@ -12,7 +12,7 @@ World::World(sf::RenderWindow& window) : mWindow(window), mCamera(window.getDefa
 void World::update(sf::Time dt)
 {
 	//Scroll the world
-	mCamera.move(0.f, mScrollSpeed * dt.asSeconds());
+	mCamera.move(0.f, dt.asSeconds());
 
 	mPlayerAircraft->setVelocity(0.f, 0.f);
 
@@ -108,5 +108,5 @@ void World::adaptPlayerVelocity()
 		mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
 	}
 	//add the scrolling velocity
-	mPlayerAircraft->accelerate(0.f, mScrollSpeed);
+	//mPlayerAircraft->accelerate(0.f, mScrollSpeed);
 }
