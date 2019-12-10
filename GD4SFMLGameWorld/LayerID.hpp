@@ -2,6 +2,7 @@
 enum class LayerID
 {
 	Background, 
-	Air,
+	LowerAir,
+	UpperAir,
 	LayerCount
 };
