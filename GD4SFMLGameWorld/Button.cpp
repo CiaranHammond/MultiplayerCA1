@@ -1,12 +1,14 @@
 #include "Button.hpp"
+#include "State.hpp"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
-GUI::Button::Button(const FontHolder& fonts, const TextureHolder& textures)
+GUI::Button::Button(State::Context context)
 	:mCallback()
-	, mSprite(textures.get(TextureID::Buttons))
-	, mText("", fonts.get(FontID::Main), 16)
+	, mSprite(context.textures->get(TextureID::Buttons))
+	, mText("", context.fonts->get(FontID::Main), 16)
 	, mIsToggle(false)
+	, mSounds(*context.sounds)
 {
 	changeTexture(ButtonID::Normal);
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -49,6 +51,7 @@ void GUI::Button::deselect()
 void GUI::Button::activate()
 {
 	Component::activate();
+	mSounds.play(SoundEffectID::Button);
 
 	//If we toggle then we should show the button as pressed/toggled
 	if (mIsToggle)

@@ -2,10 +2,11 @@
 
 GameState::GameState(StateStack& stack, Context context)
 	:State(stack, context)
-	, mWorld(*context.window, *context.fonts)
+	, mWorld(*context.window, *context.fonts, *context.sounds)
 	, mPlayer(*context.player)
 {
 	mPlayer.setMissionStatus(MissionStatusID::MissionRunning);
+	context.music->play(MusicID::MissionTheme);
 }
 
 void GameState::draw()

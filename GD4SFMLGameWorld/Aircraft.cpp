@@ -4,6 +4,7 @@
 #include "Utility.hpp"
 #include "Pickup.hpp"
 #include "CommandQueue.hpp"
+#include "SoundNode.hpp"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "SFML/Graphics/RenderStates.hpp"
@@ -43,6 +44,7 @@ Aircraft::Aircraft(AircraftID type, const TextureHolder& textures, const FontHol
 	, mIsFiring(false)
 	, mIsLaunchingMissile(false)
 	, mShowExplosion(true)
+	, mPlayedExplosionSound(false)
 	, mSpawnedPickup(false)
 	, mIsMarkedForRemoval(false)
 	, mFireRateLevel(1)
@@ -111,6 +113,14 @@ void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 		checkPickupDrop(commands);
 		mExplosion.update(dt);
 		//mIsMarkedForRemoval = true;
+		//Play explosion sound
+		if (!mPlayedExplosionSound)
+		{
+			SoundEffectID soundEffect = (randomInt(2) == 0) ? SoundEffectID::Explosion1 : SoundEffectID::Explosion2;
+			playerLocalSound(commands, soundEffect);
+
+			mPlayedExplosionSound = true;
+		}
 		return;
 	}
 
@@ -172,6 +182,20 @@ void Aircraft::collectMissiles(unsigned int count)
 	mMissileAmmo += count;
 }
 
+void Aircraft::playerLocalSound(CommandQueue& commands, SoundEffectID effect)
+{
+	sf::Vector2f worldPosition = getWorldPosition();
+
+	Command command;
+	command.category = static_cast<int>(CategoryID::SoundEffect);
+	command.action = derivedAction<SoundNode>(
+		[effect, worldPosition](SoundNode& node, sf::Time)
+	{
+		node.playSound(effect, worldPosition);
+	});
+	commands.push(command);
+}
+
 void Aircraft::fire()
 {
 	// Only ships with fire interval != 0 are able to fire
@@ -230,6 +254,7 @@ void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 	{
 		// Interval expired: We can fire a new bullet
 		commands.push(mFireCommand);
+		playerLocalSound(commands, isAllied() ? SoundEffectID::AlliedGunfire : SoundEffectID::EnemyGunfire);
 		mFireCountdown += Table[static_cast<int>(mType)].fireInterval / (mFireRateLevel + 1.f);
 		mIsFiring = false;
 	}
@@ -244,6 +269,7 @@ void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 	if (mIsLaunchingMissile)
 	{
 		commands.push(mMissileCommand);
+		playerLocalSound(commands, SoundEffectID::LaunchMissile);
 		mIsLaunchingMissile = false;
 	}
 }

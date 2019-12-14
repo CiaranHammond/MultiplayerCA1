@@ -1,7 +1,5 @@
 #include "BloomEffect.hpp"
 
-
-
 BloomEffect::BloomEffect()
 	: mShaders()
 	, mBrightnessTexture()

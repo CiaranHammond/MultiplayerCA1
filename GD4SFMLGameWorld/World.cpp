@@ -6,11 +6,12 @@
 
 
 
-World::World(sf::RenderTarget& outputTarget, FontHolder& fonts)
+World::World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sounds)
 	: mTarget(outputTarget)
 	, mSceneTexture()
 	, mCamera(outputTarget.getDefaultView())
 	, mFonts(fonts)
+	, mSounds(sounds)
 	, mTextures()
 	, mSceneGraph()
 	, mSceneLayers()
@@ -54,6 +55,8 @@ void World::update(sf::Time dt)
 	// Regular update step, adapt position (correct if outside view)
 	mSceneGraph.update(dt, mCommandQueue);
 	adaptPlayerPosition();
+
+	updateSounds();
 }
 
 void World::draw()
@@ -86,6 +89,15 @@ bool World::hasAlivePlayer() const
 bool World::hasPlayerReachedEnd() const
 {
 	return !mWorldBounds.contains(mPlayerAircraft->getPosition());
+}
+
+void World::updateSounds()
+{
+	//Set the listener to the player position
+	mSounds.setListenPosition(mPlayerAircraft->getWorldPosition());
+	//Remove unused sounds
+	mSounds.removeStoppedSounds();
+
 }
 
 void World::loadTextures()
@@ -142,6 +154,7 @@ void World::handleCollisions()
 
 			// Apply pickup effect to player, destroy projectile
 			pickup.apply(player);
+			player.playerLocalSound(mCommandQueue, SoundEffectID::CollectPickup);
 			pickup.destroy();
 		}
 
@@ -194,6 +207,10 @@ void World::buildScene()
 
 	std::unique_ptr<ParticleNode> propellantNode(new ParticleNode(ParticleID::Propellant, mTextures));
 	mSceneLayers[static_cast<int>(LayerID::LowerAir)]->attachChild(std::move(propellantNode));
+
+	//Add the sound effect node
+	std::unique_ptr<SoundNode> soundNode(new SoundNode(mSounds));
+	mSceneGraph.attachChild(std::move(soundNode));
 
 	// Add player's aircraft
 	std::unique_ptr<Aircraft> player(new Aircraft(AircraftID::Eagle, mTextures, mFonts));

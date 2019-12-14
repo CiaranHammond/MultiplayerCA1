@@ -11,6 +11,8 @@
 #include "Pickup.hpp"
 #include "PostEffect.hpp"
 #include "BloomEffect.hpp"
+#include "SoundNode.hpp"
+#include "SoundPlayer.hpp"
 
 #include "SFML/System/NonCopyable.hpp"
 #include "SFML/Graphics/View.hpp"
@@ -25,15 +27,17 @@ namespace sf
 	class RenderTarget;
 }
 
+
 class World : private sf::NonCopyable
 {
 public:
-	explicit World(sf::RenderTarget& outputTarget, FontHolder& fonts);
+	explicit World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sounds);
 	void update(sf::Time dt);
 	void draw();
 	CommandQueue& getCommandQueue();
 	bool hasAlivePlayer() const;
 	bool hasPlayerReachedEnd() const;
+	void updateSounds();
 
 private:
 	void loadTextures();
@@ -73,6 +77,7 @@ private:
 	sf::View mCamera;
 	TextureHolder mTextures;
 	FontHolder& mFonts;
+	SoundPlayer& mSounds;
 
 	SceneNode mSceneGraph;
 	std::array<SceneNode*, static_cast<int>(LayerID::LayerCount)> mSceneLayers;

@@ -23,6 +23,8 @@ public:
 	void increaseSpread();
 	void collectMissiles(unsigned int count);
 
+	void playerLocalSound(CommandQueue& command, SoundEffectID effect);
+
 private:
 	virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
@@ -56,6 +58,7 @@ private:
 	Command	mMissileCommand;
 	Command mDropPickupCommand;
 	bool mShowExplosion;
+	bool mPlayedExplosionSound;
 	bool mSpawnedPickup;
 	int mSpreadLevel;
 
