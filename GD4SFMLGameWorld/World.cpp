@@ -17,10 +17,11 @@ World::World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sou
 	, mSceneLayers()
 	, mWorldBounds(0.f, 0.f, mCamera.getSize().x, 5000.f)
 	, mSpawnPosition(mCamera.getSize().x / 2.f, mWorldBounds.height - mCamera.getSize().y / 2.f)
-	, mScrollSpeed(-50.f)
+	, mScrollSpeed(0.f)
 	, mPlayerAircraft(nullptr)
 	, mEnemySpawnPoints()
 	, mActiveEnemies()
+	, mActivePlayers()
 {
 	mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
 	loadTextures();
@@ -250,12 +251,12 @@ void World::adaptPlayerVelocity()
 void World::addEnemies()
 {
 	// Add enemies to the spawn point container
-	addEnemy(AircraftID::Raptor, 0.f, 500.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1000.f);
-	addEnemy(AircraftID::Raptor, +100.f, 1150.f);
-	addEnemy(AircraftID::Raptor, -100.f, 1150.f);
-	addEnemy(AircraftID::Avenger, 70.f, 1500.f);
-	addEnemy(AircraftID::Avenger, -70.f, 1500.f);
+	addEnemy(AircraftID::Raptor, 0.f, 450.f);
+	addEnemy(AircraftID::Raptor, +100.f, 450.f);
+	addEnemy(AircraftID::Raptor, +100.f, 500.f);
+	addEnemy(AircraftID::Raptor, -100.f, 500.f);
+	addEnemy(AircraftID::Avenger, 70.f, 550.f);
+	addEnemy(AircraftID::Avenger, -70.f, 550.f);
 
 	addEnemy(AircraftID::Avenger, -70.f, 1710.f);
 	addEnemy(AircraftID::Avenger, 70.f, 1700.f);
@@ -293,8 +294,7 @@ void World::addEnemy(AircraftID type, float relX, float relY)
 void World::spawnEnemies()
 {
 	// Spawn all enemies entering the view area (including distance) this frame
-	while (!mEnemySpawnPoints.empty()
-		&& mEnemySpawnPoints.back().y > getBattlefieldBounds().top)
+	while (!mEnemySpawnPoints.empty())
 	{
 		SpawnPoint spawn = mEnemySpawnPoints.back();
 
@@ -307,6 +307,43 @@ void World::spawnEnemies()
 		// Enemy is spawned, remove from the list to spawn
 		mEnemySpawnPoints.pop_back();
 	}
+
+	Command playerCollector;
+	playerCollector.category = static_cast<int>(CategoryID::PlayerAircraft);
+	playerCollector.action = derivedAction<Aircraft>([this](Aircraft& player, sf::Time)
+		{
+			if (!player.isDestroyed())
+				mActivePlayers.push_back(&player);
+		});
+
+	Command zombieGuider;
+	zombieGuider.category = static_cast<int>(CategoryID::EnemyAircraft);
+	zombieGuider.action = derivedAction<Aircraft>([this](Aircraft& zombie, sf::Time)
+		{
+			if (!zombie.isGuided())
+				return;
+
+			float minDistance = std::numeric_limits<float>::max();
+			Aircraft* closestPlayer = nullptr;
+
+			for (Aircraft* player : mActivePlayers)
+			{
+				float playerDistance = distance(zombie, *player);
+
+				if (playerDistance < minDistance)
+				{
+					closestPlayer = player;
+					minDistance = playerDistance;
+				}
+			}
+
+			if (closestPlayer)
+				zombie.guideTowards(closestPlayer->getWorldPosition());
+		});
+
+	mCommandQueue.push(playerCollector);
+	mCommandQueue.push(zombieGuider);
+	mActivePlayers.clear();
 }
 
 void World::destroyEntitiesOutsideView()
@@ -332,6 +369,8 @@ void World::guideMissiles()
 		if (!enemy.isDestroyed())
 			mActiveEnemies.push_back(&enemy);
 	});
+
+	
 
 	// Setup command that guides all missiles to the enemy which is currently closest to the player
 	Command missileGuider;

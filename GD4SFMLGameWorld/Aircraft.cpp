@@ -55,6 +55,7 @@ Aircraft::Aircraft(AircraftID type, const TextureHolder& textures, const FontHol
 	, mDirectionIndex(0)
 	, mHealthDisplay(nullptr)
 	, mMissileDisplay(nullptr)
+	, mTargetDirection()
 {
 	mExplosion.setFrameSize(sf::Vector2i(256, 256));
 	mExplosion.setNumFrames(16);
@@ -129,6 +130,18 @@ void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 
 	// Update enemy movement pattern; apply velocity
 	updateMovementPattern(dt);
+	if (isGuided())
+	{
+		const float approachRate = 100.f;
+
+		sf::Vector2f newVelocity = unitVector(approachRate * dt.asSeconds() * mTargetDirection + getVelocity());
+		newVelocity *= getMaxSpeed();
+		float angle = std::atan2(newVelocity.y, newVelocity.x);
+
+		setRotation(toDegree(angle) + 90.f);
+		setVelocity(newVelocity);
+	}
+
 	Entity::updateCurrent(dt, commands);
 
 	// Update texts
@@ -234,6 +247,18 @@ void Aircraft::updateMovementPattern(sf::Time dt)
 
 		mTravelledDistance += getMaxSpeed() * dt.asSeconds();
 	}
+	
+}
+
+void Aircraft::guideTowards(sf::Vector2f position)
+{
+	assert(isGuided());
+	mTargetDirection = unitVector(position - getWorldPosition());
+}
+
+bool Aircraft::isGuided() const
+{
+	return mType == AircraftID::Avenger;
 }
 
 void Aircraft::checkPickupDrop(CommandQueue& commands)

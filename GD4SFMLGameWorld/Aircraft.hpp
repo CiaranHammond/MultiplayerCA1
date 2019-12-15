@@ -22,6 +22,8 @@ public:
 	void increaseFireRate();
 	void increaseSpread();
 	void collectMissiles(unsigned int count);
+	bool isGuided() const;
+	void guideTowards(sf::Vector2f position);
 
 	void playerLocalSound(CommandQueue& command, SoundEffectID effect);
 
@@ -65,4 +67,5 @@ private:
 	int mMissileAmmo;
 	float mTravelledDistance;
 	std::size_t mDirectionIndex;
+	sf::Vector2f mTargetDirection;
 };
