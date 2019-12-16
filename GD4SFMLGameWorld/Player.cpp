@@ -34,6 +34,13 @@ Player::Player() : mCurrentMissionStatus(MissionStatusID::MissionRunning)
 	mKeyBinding[sf::Keyboard::Space] = ActionID::Fire;
 	mKeyBinding[sf::Keyboard::M] = ActionID::LaunchMissile;
 
+	mKeyBinding[sf::Keyboard::Left] = ActionID::MoveLeft;
+	mKeyBinding[sf::Keyboard::Right] = ActionID::MoveRight;
+	mKeyBinding[sf::Keyboard::Up] = ActionID::MoveUp;
+	mKeyBinding[sf::Keyboard::Down] = ActionID::MoveDown;
+	mKeyBinding[sf::Keyboard::Enter] = ActionID::Fire;
+	mKeyBinding[sf::Keyboard::Delete] = ActionID::LaunchMissile;
+
 	// Set initial action bindings
 	initializeActions();
 

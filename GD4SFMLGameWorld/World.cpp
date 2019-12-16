@@ -17,7 +17,7 @@ World::World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sou
 	, mSceneLayers()
 	, mWorldBounds(0.f, 0.f, mCamera.getSize().x, 5000.f)
 	, mSpawnPosition(mCamera.getSize().x / 2.f, mWorldBounds.height - mCamera.getSize().y / 2.f)
-	, mScrollSpeed(0.f)
+	, mScrollSpeed(-50.f)
 	, mPlayerAircraft(nullptr)
 	, mEnemySpawnPoints()
 	, mActiveEnemies()
@@ -214,10 +214,15 @@ void World::buildScene()
 	mSceneGraph.attachChild(std::move(soundNode));
 
 	// Add player's aircraft
-	std::unique_ptr<Aircraft> player(new Aircraft(AircraftID::Eagle, mTextures, mFonts));
-	mPlayerAircraft = player.get();
+	std::unique_ptr<Aircraft> player1(new Aircraft(AircraftID::Eagle, mTextures, mFonts));
+	mPlayerAircraft = player1.get();
 	mPlayerAircraft->setPosition(mSpawnPosition);
-	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player));
+	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player1));
+
+	std::unique_ptr<Aircraft> player2(new Aircraft(AircraftID::Eagle, mTextures, mFonts));
+	mPlayerAircraft = player2.get();
+	mPlayerAircraft->setPosition(mSpawnPosition.x + 100, mSpawnPosition.y);
+	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player2));
 
 	addEnemies();
 }
@@ -253,30 +258,30 @@ void World::addEnemies()
 	// Add enemies to the spawn point container
 	addEnemy(AircraftID::Raptor, 0.f, 450.f);
 	addEnemy(AircraftID::Raptor, +100.f, 450.f);
-	addEnemy(AircraftID::Raptor, +100.f, 500.f);
-	addEnemy(AircraftID::Raptor, -100.f, 500.f);
-	addEnemy(AircraftID::Avenger, 70.f, 550.f);
-	addEnemy(AircraftID::Avenger, -70.f, 550.f);
+	addEnemy(AircraftID::Raptor, +100.f, 550.f);
+	addEnemy(AircraftID::Raptor, -100.f, 550.f);
+	addEnemy(AircraftID::Avenger, 70.f, 650.f);
+	addEnemy(AircraftID::Avenger, -70.f, 650.f);
 
-	addEnemy(AircraftID::Avenger, -70.f, 1710.f);
-	addEnemy(AircraftID::Avenger, 70.f, 1700.f);
-	addEnemy(AircraftID::Avenger, 30.f, 1850.f);
-	addEnemy(AircraftID::Raptor, 300.f, 2200.f);
-	addEnemy(AircraftID::Raptor, -300.f, 2200.f);
-	addEnemy(AircraftID::Raptor, 0.f, 2200.f);
-	addEnemy(AircraftID::Raptor, 0.f, 2500.f);
-	addEnemy(AircraftID::Avenger, -300.f, 2700.f);
-	addEnemy(AircraftID::Avenger, -300.f, 2700.f);
-	addEnemy(AircraftID::Raptor, 0.f, 3000.f);
-	addEnemy(AircraftID::Raptor, 250.f, 3250.f);
-	addEnemy(AircraftID::Raptor, -250.f, 3250.f);
-	addEnemy(AircraftID::Avenger, 0.f, 3500.f);
-	addEnemy(AircraftID::Avenger, 0.f, 3700.f);
-	addEnemy(AircraftID::Raptor, 0.f, 3800.f);
-	addEnemy(AircraftID::Avenger, 0.f, 4000.f);
-	addEnemy(AircraftID::Avenger, -200.f, 4200.f);
-	addEnemy(AircraftID::Raptor, 200.f, 4200.f);
-	addEnemy(AircraftID::Raptor, 0.f, 4400.f);
+	addEnemy(AircraftID::Avenger, -70.f, 700.f);
+	addEnemy(AircraftID::Avenger, 70.f, 700.f);
+	addEnemy(AircraftID::Avenger, 30.f, 800.f);
+	addEnemy(AircraftID::Raptor, 300.f, 800.f);
+	addEnemy(AircraftID::Raptor, -300.f, 900.f);
+	addEnemy(AircraftID::Raptor, 0.f, 900.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1000.f);
+	addEnemy(AircraftID::Avenger, -300.f, 1000.f);
+	addEnemy(AircraftID::Avenger, -300.f, 1100.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1100.f);
+	addEnemy(AircraftID::Raptor, 250.f, 1200.f);
+	addEnemy(AircraftID::Raptor, -250.f, 1200.f);
+	addEnemy(AircraftID::Avenger, 0.f, 1300.f);
+	addEnemy(AircraftID::Avenger, 0.f, 1300.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1400.f);
+	addEnemy(AircraftID::Avenger, 0.f, 1400.f);
+	addEnemy(AircraftID::Avenger, -200.f, 1500.f);
+	addEnemy(AircraftID::Raptor, 200.f, 1600.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1650.f);
 
 	// Sort all enemies according to their y value, such that lower enemies are checked first for spawning
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [](SpawnPoint lhs, SpawnPoint rhs)
@@ -308,7 +313,7 @@ void World::spawnEnemies()
 		mEnemySpawnPoints.pop_back();
 	}
 
-	Command playerCollector;
+	/*Command playerCollector;
 	playerCollector.category = static_cast<int>(CategoryID::PlayerAircraft);
 	playerCollector.action = derivedAction<Aircraft>([this](Aircraft& player, sf::Time)
 		{
@@ -343,7 +348,7 @@ void World::spawnEnemies()
 
 	mCommandQueue.push(playerCollector);
 	mCommandQueue.push(zombieGuider);
-	mActivePlayers.clear();
+	mActivePlayers.clear();*/
 }
 
 void World::destroyEntitiesOutsideView()
