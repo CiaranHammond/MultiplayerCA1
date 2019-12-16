@@ -87,6 +87,7 @@ private:
 	sf::Vector2f mSpawnPosition;
 	float mScrollSpeed;
 	Aircraft* mPlayerAircraft;
+	Aircraft* mPlayer2Aircraft;
 
 	std::vector<SpawnPoint>	mEnemySpawnPoints;
 	std::vector<Aircraft*> mActiveEnemies;

@@ -19,6 +19,7 @@ World::World(sf::RenderTarget& outputTarget, FontHolder& fonts, SoundPlayer& sou
 	, mSpawnPosition(mCamera.getSize().x / 2.f, mWorldBounds.height - mCamera.getSize().y / 2.f)
 	, mScrollSpeed(-50.f)
 	, mPlayerAircraft(nullptr)
+	, mPlayer2Aircraft(nullptr)
 	, mEnemySpawnPoints()
 	, mActiveEnemies()
 	, mActivePlayers()
@@ -36,6 +37,7 @@ void World::update(sf::Time dt)
 	// Scroll the world, reset player velocity
 	mCamera.move(0.f, mScrollSpeed * dt.asSeconds());
 	mPlayerAircraft->setVelocity(0.f, 0.f);
+	mPlayer2Aircraft->setVelocity(0.f, 0.f);
 
 	// Setup commands to destroy entities, and guide missiles
 	destroyEntitiesOutsideView();
@@ -84,18 +86,19 @@ CommandQueue& World::getCommandQueue()
 
 bool World::hasAlivePlayer() const
 {
-	return !mPlayerAircraft->isMarkedForRemoval();
+	return !mPlayerAircraft->isMarkedForRemoval() && !mPlayer2Aircraft->isMarkedForRemoval();
 }
 
 bool World::hasPlayerReachedEnd() const
 {
-	return !mWorldBounds.contains(mPlayerAircraft->getPosition());
+	return !mWorldBounds.contains(mPlayerAircraft->getPosition()) && !mWorldBounds.contains(mPlayer2Aircraft->getPosition());
 }
 
 void World::updateSounds()
 {
 	//Set the listener to the player position
 	mSounds.setListenPosition(mPlayerAircraft->getWorldPosition());
+	mSounds.setListenPosition(mPlayer2Aircraft->getWorldPosition());
 	//Remove unused sounds
 	mSounds.removeStoppedSounds();
 
@@ -220,8 +223,8 @@ void World::buildScene()
 	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player1));
 
 	std::unique_ptr<Aircraft> player2(new Aircraft(AircraftID::Eagle, mTextures, mFonts));
-	mPlayerAircraft = player2.get();
-	mPlayerAircraft->setPosition(mSpawnPosition.x + 100, mSpawnPosition.y);
+	mPlayer2Aircraft = player2.get();
+	mPlayer2Aircraft->setPosition(mSpawnPosition.x + 100, mSpawnPosition.y);
 	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player2));
 
 	addEnemies();
@@ -239,27 +242,39 @@ void World::adaptPlayerPosition()
 	position.y = std::max(position.y, viewBounds.top + borderDistance);
 	position.y = std::min(position.y, viewBounds.top + viewBounds.height - borderDistance);
 	mPlayerAircraft->setPosition(position);
+
+	sf::Vector2f position2 = mPlayer2Aircraft->getPosition();
+	position2.x = std::max(position2.x, viewBounds.left + borderDistance);
+	position2.x = std::min(position2.x, viewBounds.left + viewBounds.width - borderDistance);
+	position2.y = std::max(position2.y, viewBounds.top + borderDistance);
+	position2.y = std::min(position2.y, viewBounds.top + viewBounds.height - borderDistance);
+	mPlayer2Aircraft->setPosition(position2);
 }
 
 void World::adaptPlayerVelocity()
 {
 	sf::Vector2f velocity = mPlayerAircraft->getVelocity();
+	sf::Vector2f velocity2 = mPlayer2Aircraft->getVelocity();
 
 	// If moving diagonally, reduce velocity (to have always same velocity)
 	if (velocity.x != 0.f && velocity.y != 0.f)
 		mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
 
+	if (velocity2.x != 0.f && velocity2.y != 0.f)
+		mPlayer2Aircraft->setVelocity(velocity2 / std::sqrt(2.f));
+
 	// Add scrolling velocity
 	mPlayerAircraft->accelerate(0.f, mScrollSpeed);
+	mPlayer2Aircraft->accelerate(0.f, mScrollSpeed);
 }
 
 void World::addEnemies()
 {
 	// Add enemies to the spawn point container
 	addEnemy(AircraftID::Raptor, 0.f, 450.f);
-	addEnemy(AircraftID::Raptor, +100.f, 450.f);
-	addEnemy(AircraftID::Raptor, +100.f, 550.f);
-	addEnemy(AircraftID::Raptor, -100.f, 550.f);
+	addEnemy(AircraftID::Raptor, +100.f, 500.f);
+	addEnemy(AircraftID::Raptor, +100.f, 600.f);
+	addEnemy(AircraftID::Raptor, -100.f, 650.f);
 	addEnemy(AircraftID::Avenger, 70.f, 650.f);
 	addEnemy(AircraftID::Avenger, -70.f, 650.f);
 
@@ -299,7 +314,8 @@ void World::addEnemy(AircraftID type, float relX, float relY)
 void World::spawnEnemies()
 {
 	// Spawn all enemies entering the view area (including distance) this frame
-	while (!mEnemySpawnPoints.empty())
+	while (!mEnemySpawnPoints.empty()
+		&& mEnemySpawnPoints.back().y > getBattlefieldBounds().top)
 	{
 		SpawnPoint spawn = mEnemySpawnPoints.back();
 
