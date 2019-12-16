@@ -7,15 +7,26 @@
 #include "PickupID.hpp"
 #include "ParticleID.hpp"
 
+
+
+
+
 std::vector<AircraftData> initializeAircraftData()
 {
 	std::vector<AircraftData> data(static_cast<int>(AircraftID::TypeCount));
-	data[static_cast<int>(AircraftID::Eagle)].hitpoints = 100;
-	data[static_cast<int>(AircraftID::Eagle)].speed = 200.f;
-	data[static_cast<int>(AircraftID::Eagle)].fireInterval = sf::seconds(1);
-	data[static_cast<int>(AircraftID::Eagle)].textureRect = sf::IntRect(0, 0, 48, 64);
-	data[static_cast<int>(AircraftID::Eagle)].texture = TextureID::Entities;
-	data[static_cast<int>(AircraftID::Eagle)].hasRollAnimation = true;
+	data[static_cast<int>(AircraftID::Player)].hitpoints = 100;
+	data[static_cast<int>(AircraftID::Player)].speed = 200.f;
+	data[static_cast<int>(AircraftID::Player)].fireInterval = sf::seconds(1);
+	data[static_cast<int>(AircraftID::Player)].textureRect = sf::IntRect(0, 0, 48, 64);
+	data[static_cast<int>(AircraftID::Player)].texture = TextureID::Entities;
+	data[static_cast<int>(AircraftID::Player)].hasRollAnimation = true;
+
+	data[static_cast<int>(AircraftID::Player2)].hitpoints = 100;
+	data[static_cast<int>(AircraftID::Player2)].speed = 200.f;
+	data[static_cast<int>(AircraftID::Player2)].fireInterval = sf::seconds(1);
+	data[static_cast<int>(AircraftID::Player2)].textureRect = sf::IntRect(0, 0, 48, 64);
+	data[static_cast<int>(AircraftID::Player2)].texture = TextureID::Entities;
+	data[static_cast<int>(AircraftID::Player2)].hasRollAnimation = true;
 
 	data[static_cast<int>(AircraftID::Raptor)].hitpoints = 20;
 	data[static_cast<int>(AircraftID::Raptor)].speed = 80.f;

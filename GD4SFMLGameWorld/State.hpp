@@ -10,6 +10,7 @@
 #include <memory>
 
 class Player;
+class Player2;
 class StateStack;
 
 namespace sf
@@ -24,12 +25,13 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& font, Player& player, MusicPlayer& music, SoundPlayer& sounds);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& font, Player& player, Player2& player2, MusicPlayer& music, SoundPlayer& sounds);
 
 		sf::RenderWindow* window;
 		TextureHolder* textures;
 		FontHolder* fonts;
 		Player* player;
+		Player2* player2;
 		MusicPlayer* music;
 		SoundPlayer* sounds;
 	};

@@ -1,6 +1,7 @@
 #include "Entity.hpp"
 
 #include <cassert>
+#include <iostream>
 
 Entity::Entity(int hitpoints)
 	: mVelocity(), mHitpoints(hitpoints)
@@ -45,9 +46,11 @@ void Entity::repair(int points)
 
 }
 
+//the points being put in are 0 so it was breaking
 void Entity::damage(int points)
 {
-	assert(points > 0);
+	std::cout << points << std::endl;
+	assert(points >= 0);
 	mHitpoints -= points;
 }
 

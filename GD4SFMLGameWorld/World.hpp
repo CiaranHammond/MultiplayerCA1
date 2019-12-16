@@ -43,7 +43,9 @@ private:
 	void loadTextures();
 	void buildScene();
 	void adaptPlayerPosition();
+	void adaptPlayer2Position();
 	void adaptPlayerVelocity();
+	void adaptPlayer2Velocity();
 	void handleCollisions();
 
 	void spawnEnemies();

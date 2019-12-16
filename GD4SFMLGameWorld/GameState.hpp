@@ -3,6 +3,7 @@
 #include "State.hpp"
 #include "World.hpp"
 #include "Player.hpp"
+#include "Player2.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -19,4 +20,5 @@ public:
 private:
 	World mWorld;
 	Player& mPlayer;
+	Player2& mPlayer2;
 };
