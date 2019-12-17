@@ -7,7 +7,7 @@
 #include "Aircraft.hpp"
 #include "LayerID.hpp"
 #include "CommandQueue.hpp"
-#include "AircraftID.hpp"
+#include "PersonID.hpp"
 #include "Pickup.hpp"
 #include "PostEffect.hpp"
 #include "BloomEffect.hpp"
@@ -50,7 +50,7 @@ private:
 
 	void spawnEnemies();
 	void addEnemies();
-	void addEnemy(AircraftID type, float relX, float relY);
+	void addEnemy(PersonID type, float relX, float relY);
 
 	sf::FloatRect getBattlefieldBounds() const;
 	sf::FloatRect getViewBounds() const;
@@ -61,14 +61,14 @@ private:
 
 	struct SpawnPoint
 	{
-		SpawnPoint(AircraftID type, float x, float y)
+		SpawnPoint(PersonID type, float x, float y)
 			: type(type)
 			, x(x)
 			, y(y)
 		{
 		}
 
-		AircraftID type;
+		PersonID type;
 		float x;
 		float y;
 	};

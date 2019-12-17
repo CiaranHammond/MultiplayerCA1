@@ -9,7 +9,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "SFML/Graphics/RenderStates.hpp"
 #include "TextureID.hpp"
-#include "AircraftID.hpp"
+#include "PersonID.hpp"
 #include "ProjectileID.hpp"
 #include "PickupID.hpp"
 
@@ -20,31 +20,31 @@ namespace
 	const std::vector<AircraftData> Table = initializeAircraftData();
 }
 
-//TextureID toTextureID(AircraftID type)
+//TextureID toTextureID(PersonID type)
 //{
 //	switch (type)
 //	{
-//	case AircraftID::Eagle:
+//	case PersonID::Eagle:
 //		return TextureID::Eagle;
 //
-//	case AircraftID::Raptor:
-//		return TextureID::Raptor;
+//	case PersonID::Zombie:
+//		return TextureID::Zombie;
 //	}
 //	return TextureID::Eagle;
 //}
 
-Aircraft::Aircraft(AircraftID type, const TextureHolder& textures, const FontHolder& fonts)
+Aircraft::Aircraft(PersonID type, const TextureHolder& textures, const FontHolder& fonts)
 	: Entity(Table[static_cast<int>(type)].hitpoints)
 	, mType(type)
 	, mSprite(textures.get(Table[static_cast<int>(type)].texture), Table[static_cast<int>(type)].textureRect)
-	, mExplosion(textures.get(TextureID::Explosion))
+	, mBloodSplat(textures.get(TextureID::BloodSplat))
 	, mFireCommand()
 	, mMissileCommand()
 	, mFireCountdown(sf::Time::Zero)
 	, mIsFiring(false)
 	, mIsLaunchingMissile(false)
-	, mShowExplosion(true)
-	, mPlayedExplosionSound(false)
+	, mShowBloodSplat(true)
+	, mPlayedBloodSplatSound(false)
 	, mSpawnedPickup(false)
 	, mIsMarkedForRemoval(false)
 	, mFireRateLevel(1)
@@ -57,12 +57,12 @@ Aircraft::Aircraft(AircraftID type, const TextureHolder& textures, const FontHol
 	, mMissileDisplay(nullptr)
 	, mTargetDirection()
 {
-	mExplosion.setFrameSize(sf::Vector2i(256, 256));
-	mExplosion.setNumFrames(16);
-	mExplosion.setDuration(sf::seconds(1));
+	mBloodSplat.setFrameSize(sf::Vector2i(256, 256));
+	mBloodSplat.setNumFrames(16);
+	mBloodSplat.setDuration(sf::seconds(1));
 
 	centreOrigin(mSprite);
-	centreOrigin(mExplosion);
+	centreOrigin(mBloodSplat);
 
 	mFireCommand.category = static_cast<int>(CategoryID::SceneAirLayer);
 	mFireCommand.action = [this, &textures](SceneNode& node, sf::Time)
@@ -108,8 +108,8 @@ Aircraft::Aircraft(AircraftID type, const TextureHolder& textures, const FontHol
 
 void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	if (isDestroyed() && mShowExplosion)
-		target.draw(mExplosion, states);
+	if (isDestroyed() && mShowBloodSplat)
+		target.draw(mBloodSplat, states);
 	else
 		target.draw(mSprite, states);
 }
@@ -120,15 +120,15 @@ void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 	if (isDestroyed())
 	{
 		checkPickupDrop(commands);
-		mExplosion.update(dt);
+		mBloodSplat.update(dt);
 		//mIsMarkedForRemoval = true;
-		//Play explosion sound
-		if (!mPlayedExplosionSound)
+		//Play BloodSplat sound
+		if (!mPlayedBloodSplatSound)
 		{
 			SoundEffectID soundEffect = (randomInt(2) == 0) ? SoundEffectID::Explosion1 : SoundEffectID::Explosion2;
 			playerLocalSound(commands, soundEffect);
 
-			mPlayedExplosionSound = true;
+			mPlayedBloodSplatSound = true;
 		}
 		return;
 	}
@@ -175,17 +175,17 @@ sf::FloatRect Aircraft::getBoundingRect() const
 
 bool Aircraft::isMarkedForRemoval() const
 {
-	return isDestroyed() && (mExplosion.isFinished() || !mShowExplosion);
+	return isDestroyed() && (mBloodSplat.isFinished() || !mShowBloodSplat);
 }
 
 bool Aircraft::isAllied() const
 {
-	return mType == AircraftID::Player;
+	return mType == PersonID::Player;
 }
 
 bool Aircraft::isAllied2() const
 {
-	return mType == AircraftID::Player2;
+	return mType == PersonID::Player2;
 }
 
 float Aircraft::getMaxSpeed() const
@@ -273,7 +273,7 @@ void Aircraft::guideTowards(sf::Vector2f position)
 
 bool Aircraft::isGuided() const
 {
-	return mType == AircraftID::Avenger;
+	return mType == PersonID::SpecialZombie;
 }
 
 void Aircraft::checkPickupDrop(CommandQueue& commands)

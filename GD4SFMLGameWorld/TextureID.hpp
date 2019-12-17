@@ -2,10 +2,10 @@
 enum class TextureID
 {
 	Entities,
-	Jungle,
+	Street,
 	TitleScreen,
 	Buttons,
-	Explosion,
+	BloodSplat,
 	Particle,
 	FinishLine
 };

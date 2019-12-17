@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.hpp"
-#include "AircraftID.hpp"
+#include "PersonID.hpp"
 #include "ResourceIdentifiers.hpp"
 #include "CommandQueue.hpp"
 #include "TextNode.hpp"
@@ -10,7 +10,7 @@
 class Aircraft : public Entity
 {
 public:
-	Aircraft(AircraftID type, const TextureHolder& textures, const FontHolder& fonts);
+	Aircraft(PersonID type, const TextureHolder& textures, const FontHolder& fonts);
 	virtual unsigned int getCategory() const;
 	virtual sf::FloatRect getBoundingRect() const;
 	virtual bool isMarkedForRemoval() const;
@@ -44,9 +44,9 @@ private:
 	void updateRollAnimation();
 
 private:
-	AircraftID mType;
+	PersonID mType;
 	sf::Sprite mSprite;
-	Animation mExplosion;
+	Animation mBloodSplat;
 	TextNode* mHealthDisplay;
 	TextNode* mMissileDisplay;
 
@@ -60,8 +60,8 @@ private:
 	Command mFireCommand;
 	Command	mMissileCommand;
 	Command mDropPickupCommand;
-	bool mShowExplosion;
-	bool mPlayedExplosionSound;
+	bool mShowBloodSplat;
+	bool mPlayedBloodSplatSound;
 	bool mSpawnedPickup;
 	int mSpreadLevel;
 

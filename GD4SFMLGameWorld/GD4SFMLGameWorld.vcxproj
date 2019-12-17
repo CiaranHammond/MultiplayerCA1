@@ -137,7 +137,7 @@
   <ItemGroup>
     <ClInclude Include="ActionID.hpp" />
     <ClInclude Include="Aircraft.hpp" />
-    <ClInclude Include="AircraftID.hpp" />
+    <ClInclude Include="PersonID.hpp" />
     <ClInclude Include="Animation.hpp" />
     <ClInclude Include="Application.hpp" />
     <ClInclude Include="BloomEffect.hpp" />

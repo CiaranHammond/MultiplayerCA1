@@ -2,7 +2,7 @@
 #include "Aircraft.hpp"
 #include "Projectile.hpp"
 #include "Pickup.hpp"
-#include "AircraftID.hpp"
+#include "PersonID.hpp"
 #include "ProjectileID.hpp"
 #include "PickupID.hpp"
 #include "ParticleID.hpp"
@@ -13,43 +13,44 @@
 
 std::vector<AircraftData> initializeAircraftData()
 {
-	std::vector<AircraftData> data(static_cast<int>(AircraftID::TypeCount));
-	data[static_cast<int>(AircraftID::Player)].hitpoints = 100;
-	data[static_cast<int>(AircraftID::Player)].speed = 200.f;
-	data[static_cast<int>(AircraftID::Player)].fireInterval = sf::seconds(1);
-	data[static_cast<int>(AircraftID::Player)].textureRect = sf::IntRect(0, 0, 48, 64);
-	data[static_cast<int>(AircraftID::Player)].texture = TextureID::Entities;
-	data[static_cast<int>(AircraftID::Player)].hasRollAnimation = true;
+	std::vector<AircraftData> data(static_cast<int>(PersonID::TypeCount));
+	data[static_cast<int>(PersonID::Player)].hitpoints = 100;
+	data[static_cast<int>(PersonID::Player)].speed = 200.f;
+	data[static_cast<int>(PersonID::Player)].fireInterval = sf::seconds(1);
+	data[static_cast<int>(PersonID::Player)].textureRect = sf::IntRect(0, 0, 48, 64);
+	data[static_cast<int>(PersonID::Player)].texture = TextureID::Entities;
+	data[static_cast<int>(PersonID::Player)].hasRollAnimation = true;
 
-	data[static_cast<int>(AircraftID::Player2)].hitpoints = 100;
-	data[static_cast<int>(AircraftID::Player2)].speed = 200.f;
-	data[static_cast<int>(AircraftID::Player2)].fireInterval = sf::seconds(1);
-	data[static_cast<int>(AircraftID::Player2)].textureRect = sf::IntRect(0, 0, 48, 64);
-	data[static_cast<int>(AircraftID::Player2)].texture = TextureID::Entities;
-	data[static_cast<int>(AircraftID::Player2)].hasRollAnimation = true;
+	data[static_cast<int>(PersonID::Player2)].hitpoints = 100;
+	data[static_cast<int>(PersonID::Player2)].speed = 200.f;
+	data[static_cast<int>(PersonID::Player2)].fireInterval = sf::seconds(1);
+	data[static_cast<int>(PersonID::Player2)].textureRect = sf::IntRect(0, 0, 48, 64);
+	data[static_cast<int>(PersonID::Player2)].texture = TextureID::Entities;
+	data[static_cast<int>(PersonID::Player2)].hasRollAnimation = true;
 
-	data[static_cast<int>(AircraftID::Raptor)].hitpoints = 20;
-	data[static_cast<int>(AircraftID::Raptor)].speed = 80.f;
-	data[static_cast<int>(AircraftID::Raptor)].fireInterval = sf::Time::Zero;
-	data[static_cast<int>(AircraftID::Raptor)].texture = TextureID::Entities;
-	data[static_cast<int>(AircraftID::Raptor)].textureRect = sf::IntRect(144, 0, 84, 64);
+	data[static_cast<int>(PersonID::Zombie)].hitpoints = 20;
+	data[static_cast<int>(PersonID::Zombie)].speed = 80.f;
+	data[static_cast<int>(PersonID::Zombie)].fireInterval = sf::Time::Zero;
+	data[static_cast<int>(PersonID::Zombie)].texture = TextureID::Entities;
+	data[static_cast<int>(PersonID::Zombie)].textureRect = sf::IntRect(144, 0, 84, 64);
 
-	data[static_cast<int>(AircraftID::Raptor)].directions.push_back(Direction(+45.f, 80.f));
-	data[static_cast<int>(AircraftID::Raptor)].directions.push_back(Direction(-45.f, 160.f));
-	data[static_cast<int>(AircraftID::Raptor)].directions.push_back(Direction(+45.f, 80.f));
-	data[static_cast<int>(AircraftID::Raptor)].hasRollAnimation = false;
+	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+45.f, 80.f));
+	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(-45.f, 160.f));
+	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+45.f, 80.f));
+	data[static_cast<int>(PersonID::Zombie)].hasRollAnimation = false;
 
-	data[static_cast<int>(AircraftID::Avenger)].hitpoints = 40;
-	data[static_cast<int>(AircraftID::Avenger)].speed = 50.f;
-	data[static_cast<int>(AircraftID::Avenger)].fireInterval = sf::seconds(2);
-	data[static_cast<int>(AircraftID::Avenger)].texture = TextureID::Entities;
-	data[static_cast<int>(AircraftID::Avenger)].textureRect = sf::IntRect(228, 0, 60, 59);
-	data[static_cast<int>(AircraftID::Avenger)].directions.push_back(Direction(+45.f, 50.f));
-	data[static_cast<int>(AircraftID::Avenger)].directions.push_back(Direction(0.f, 50.f));
-	data[static_cast<int>(AircraftID::Avenger)].directions.push_back(Direction(-45.f, 100.f));
-	data[static_cast<int>(AircraftID::Avenger)].directions.push_back(Direction(0.f, 50.f));
-	data[static_cast<int>(AircraftID::Avenger)].directions.push_back(Direction(+45.f, 50.f));
-	data[static_cast<int>(AircraftID::Avenger)].hasRollAnimation = false;
+	data[static_cast<int>(PersonID::SpecialZombie)].hitpoints = 40;
+	data[static_cast<int>(PersonID::SpecialZombie)].speed = 50.f;
+	data[static_cast<int>(PersonID::SpecialZombie)].fireInterval = sf::seconds(2);
+	data[static_cast<int>(PersonID::SpecialZombie)].texture = TextureID::Entities;
+	data[static_cast<int>(PersonID::SpecialZombie)].textureRect = sf::IntRect(228, 0, 60, 59);
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+45.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(0.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(-45.f, 100.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(0.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+45.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].hasRollAnimation = false;
+	data[static_cast<int>(PersonID::SpecialZombie)].hasRollAnimation = false;
 
 	return data;
 }

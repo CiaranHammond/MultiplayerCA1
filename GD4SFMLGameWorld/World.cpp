@@ -110,8 +110,8 @@ void World::updateSounds()
 void World::loadTextures()
 {
 	mTextures.load(TextureID::Entities, "Media/Textures/Entities.png");
-	mTextures.load(TextureID::Jungle, "Media/Textures/Jungle.png");
-	mTextures.load(TextureID::Explosion, "Media/Textures/Explosion.png");
+	mTextures.load(TextureID::Street, "Media/Textures/Street.png");
+	mTextures.load(TextureID::BloodSplat, "Media/Textures/BloodSplat.png");
 	mTextures.load(TextureID::Particle, "Media/Textures/Particle.png");
 	mTextures.load(TextureID::FinishLine, "Media/Textures/FinishLine.png");
 }
@@ -215,7 +215,7 @@ void World::buildScene()
 
 	// Prepare the tiled background
 
-	sf::Texture& texture = mTextures.get(TextureID::Jungle);
+	sf::Texture& texture = mTextures.get(TextureID::Street);
 	sf::IntRect textureRect(mWorldBounds);
 	texture.setRepeated(true);
 
@@ -242,12 +242,12 @@ void World::buildScene()
 	mSceneGraph.attachChild(std::move(soundNode));
 
 	// Add player's aircraft
-	std::unique_ptr<Aircraft> player1(new Aircraft(AircraftID::Player, mTextures, mFonts));
+	std::unique_ptr<Aircraft> player1(new Aircraft(PersonID::Player, mTextures, mFonts));
 	mPlayerAircraft = player1.get();
 	mPlayerAircraft->setPosition(mSpawnPosition);
 	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player1));
 
-	std::unique_ptr<Aircraft> player2(new Aircraft(AircraftID::Player2, mTextures, mFonts));
+	std::unique_ptr<Aircraft> player2(new Aircraft(PersonID::Player2, mTextures, mFonts));
 	mPlayer2Aircraft = player2.get();
 	mPlayer2Aircraft->setPosition(mSpawnPosition.x + 100, mSpawnPosition.y);
 	mSceneLayers[static_cast<int>(LayerID::UpperAir)]->attachChild(std::move(player2));
@@ -322,72 +322,72 @@ void World::adaptPlayer2Velocity()
 void World::addEnemies()
 {
 	// Add enemies to the spawn point container
-	addEnemy(AircraftID::Raptor, 0.f, 450.f);
-	addEnemy(AircraftID::Raptor, +100.f, 500.f);
-	addEnemy(AircraftID::Raptor, +100.f, 600.f);
-	addEnemy(AircraftID::Raptor, -100.f, 650.f);
-	addEnemy(AircraftID::Raptor, 70.f, 650.f);
-	addEnemy(AircraftID::Raptor, -70.f, 650.f);
+	addEnemy(PersonID::Zombie, 0.f, 450.f);
+	addEnemy(PersonID::Zombie, +100.f, 500.f);
+	addEnemy(PersonID::Zombie, +100.f, 600.f);
+	addEnemy(PersonID::Zombie, -100.f, 650.f);
+	addEnemy(PersonID::Zombie, 70.f, 650.f);
+	addEnemy(PersonID::Zombie, -70.f, 650.f);
 
-	addEnemy(AircraftID::Raptor, -70.f, 700.f);
-	addEnemy(AircraftID::Raptor, 70.f, 700.f);
-	addEnemy(AircraftID::Avenger, 30.f, 800.f);
-	addEnemy(AircraftID::Raptor, 300.f, 800.f);
-	addEnemy(AircraftID::Raptor, -300.f, 900.f);
-	addEnemy(AircraftID::Raptor, 0.f, 900.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1000.f);
-	addEnemy(AircraftID::Avenger, -300.f, 1000.f);
-	addEnemy(AircraftID::Avenger, -300.f, 1100.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1100.f);
-	addEnemy(AircraftID::Raptor, 250.f, 1200.f);
-	addEnemy(AircraftID::Raptor, -250.f, 1200.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1300.f);
-	addEnemy(AircraftID::Avenger, 0.f, 1300.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1400.f);
-	addEnemy(AircraftID::Avenger, 0.f, 1400.f);
-	addEnemy(AircraftID::Avenger, -200.f, 1500.f);
-	addEnemy(AircraftID::Raptor, 200.f, 1600.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1650.f);
+	addEnemy(PersonID::Zombie, -70.f, 700.f);
+	addEnemy(PersonID::Zombie, 70.f, 700.f);
+	addEnemy(PersonID::SpecialZombie, 30.f, 800.f);
+	addEnemy(PersonID::Zombie, 300.f, 800.f);
+	addEnemy(PersonID::Zombie, -300.f, 900.f);
+	addEnemy(PersonID::Zombie, 0.f, 900.f);
+	addEnemy(PersonID::Zombie, 0.f, 1000.f);
+	addEnemy(PersonID::SpecialZombie, -300.f, 1000.f);
+	addEnemy(PersonID::SpecialZombie, -300.f, 1100.f);
+	addEnemy(PersonID::Zombie, 0.f, 1100.f);
+	addEnemy(PersonID::Zombie, 250.f, 1200.f);
+	addEnemy(PersonID::Zombie, -250.f, 1200.f);
+	addEnemy(PersonID::Zombie, 0.f, 1300.f);
+	addEnemy(PersonID::SpecialZombie, 0.f, 1300.f);
+	addEnemy(PersonID::Zombie, 0.f, 1400.f);
+	addEnemy(PersonID::SpecialZombie, 0.f, 1400.f);
+	addEnemy(PersonID::SpecialZombie, -200.f, 1500.f);
+	addEnemy(PersonID::Zombie, 200.f, 1600.f);
+	addEnemy(PersonID::Zombie, 0.f, 1650.f);
 
-	addEnemy(AircraftID::Raptor, -70.f, 1650.f);
-	addEnemy(AircraftID::Raptor, 70.f, 1700.f);
-	addEnemy(AircraftID::Avenger, 30.f, 1700.f);
-	addEnemy(AircraftID::Raptor, 300.f, 1750.f);
-	addEnemy(AircraftID::Raptor, -300.f, 1750.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1800.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1800.f);
-	addEnemy(AircraftID::Avenger, -300.f, 1900.f);
-	addEnemy(AircraftID::Avenger, -300.f, 1900.f);
-	addEnemy(AircraftID::Raptor, 0.f, 1950.f);
-	addEnemy(AircraftID::Raptor, 250.f, 1950.f);
-	addEnemy(AircraftID::Raptor, -250.f, 2000.f);
-	addEnemy(AircraftID::Raptor, 0.f, 2500.f);
-	addEnemy(AircraftID::Avenger, 0.f, 2500.f);
-	addEnemy(AircraftID::Raptor, 0.f, 2550.f);
-	addEnemy(AircraftID::Avenger, 0.f, 2550.f);
-	addEnemy(AircraftID::Avenger, -200.f, 3000.f);
-	addEnemy(AircraftID::Raptor, 200.f, 3000.f);
-	addEnemy(AircraftID::Raptor, 0.f, 3050.f);
+	addEnemy(PersonID::Zombie, -70.f, 1650.f);
+	addEnemy(PersonID::Zombie, 70.f, 1700.f);
+	addEnemy(PersonID::SpecialZombie, 30.f, 1700.f);
+	addEnemy(PersonID::Zombie, 300.f, 1750.f);
+	addEnemy(PersonID::Zombie, -300.f, 1750.f);
+	addEnemy(PersonID::Zombie, 0.f, 1800.f);
+	addEnemy(PersonID::Zombie, 0.f, 1800.f);
+	addEnemy(PersonID::SpecialZombie, -300.f, 1900.f);
+	addEnemy(PersonID::SpecialZombie, -300.f, 1900.f);
+	addEnemy(PersonID::Zombie, 0.f, 1950.f);
+	addEnemy(PersonID::Zombie, 250.f, 1950.f);
+	addEnemy(PersonID::Zombie, -250.f, 2000.f);
+	addEnemy(PersonID::Zombie, 0.f, 2500.f);
+	addEnemy(PersonID::SpecialZombie, 0.f, 2500.f);
+	addEnemy(PersonID::Zombie, 0.f, 2550.f);
+	addEnemy(PersonID::SpecialZombie, 0.f, 2550.f);
+	addEnemy(PersonID::SpecialZombie, -200.f, 3000.f);
+	addEnemy(PersonID::Zombie, 200.f, 3000.f);
+	addEnemy(PersonID::Zombie, 0.f, 3050.f);
 
-	addEnemy(AircraftID::Raptor, -70.f, 3050.f);
-	addEnemy(AircraftID::Raptor, 70.f, 4000.f);
-	addEnemy(AircraftID::Avenger, 30.f, 4000.f);
-	addEnemy(AircraftID::Raptor, 300.f, 4050.f);
-	addEnemy(AircraftID::Raptor, -300.f, 4050.f);
-	addEnemy(AircraftID::Raptor, 0.f, 5000.f);
-	addEnemy(AircraftID::Raptor, 0.f, 5000.f);
-	addEnemy(AircraftID::Avenger, -300.f, 6000.f);
-	addEnemy(AircraftID::Avenger, -300.f, 6000.f);
-	addEnemy(AircraftID::Raptor, 0.f, 7050.f);
-	addEnemy(AircraftID::Raptor, 250.f, 7050.f);
-	addEnemy(AircraftID::Raptor, -250.f, 8000.f);
-	addEnemy(AircraftID::Raptor, 0.f, 8500.f);
-	addEnemy(AircraftID::Avenger, 0.f, 8500.f);
-	addEnemy(AircraftID::Raptor, 0.f, 9000.f);
-	addEnemy(AircraftID::Avenger, 0.f, 9000.f);
-	addEnemy(AircraftID::Avenger, -200.f, 9050.f);
-	addEnemy(AircraftID::Raptor, 200.f, 9050.f);
-	addEnemy(AircraftID::Raptor, 0.f, 10000.f);
+	addEnemy(PersonID::Zombie, -70.f, 3050.f);
+	addEnemy(PersonID::Zombie, 70.f, 4000.f);
+	addEnemy(PersonID::SpecialZombie, 30.f, 4000.f);
+	addEnemy(PersonID::Zombie, 300.f, 4050.f);
+	addEnemy(PersonID::Zombie, -300.f, 4050.f);
+	addEnemy(PersonID::Zombie, 0.f, 4150.f);
+	addEnemy(PersonID::Zombie, 0.f, 4150.f);
+	addEnemy(PersonID::SpecialZombie, -300.f, 4250.f);
+	addEnemy(PersonID::SpecialZombie, -300.f, 4250.f);
+	addEnemy(PersonID::Zombie, 0.f, 4350.f);
+	addEnemy(PersonID::Zombie, 250.f, 4350.f);
+	addEnemy(PersonID::Zombie, -250.f, 5000.f);
+	addEnemy(PersonID::Zombie, 0.f, 5000.f);
+	addEnemy(PersonID::SpecialZombie, 0.f, 5050.f);
+	addEnemy(PersonID::Zombie, 0.f, 5050.f);
+	addEnemy(PersonID::SpecialZombie, 0.f, 5100.f);
+	addEnemy(PersonID::SpecialZombie, -200.f, 5100.f);
+	addEnemy(PersonID::Zombie, 200.f, 51500.f);
+	addEnemy(PersonID::Zombie, 0.f, 5150.f);
 
 	// Sort all enemies according to their y value, such that lower enemies are checked first for spawning
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [](SpawnPoint lhs, SpawnPoint rhs)
@@ -396,7 +396,7 @@ void World::addEnemies()
 	});
 }
 
-void World::addEnemy(AircraftID type, float relX, float relY)
+void World::addEnemy(PersonID type, float relX, float relY)
 {
 	SpawnPoint spawn(type, mSpawnPosition.x + relX, mSpawnPosition.y - relY);
 	mEnemySpawnPoints.push_back(spawn);
