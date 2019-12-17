@@ -344,7 +344,7 @@ void Aircraft::createProjectile(SceneNode& node, ProjectileID type, float xOffse
 	sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width, yOffset * mSprite.getGlobalBounds().height);
 	sf::Vector2f velocity(0, projectile->getMaxSpeed());
 
-	float sign = isAllied() ? -1.f : +1.f;
+	float sign = isAllied() || isAllied2() ? -1.f : +1.f;
 	projectile->setPosition(getWorldPosition() + offset * sign);
 	projectile->setVelocity(velocity * sign);
 	node.attachChild(std::move(projectile));

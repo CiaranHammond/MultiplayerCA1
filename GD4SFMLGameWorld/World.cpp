@@ -326,11 +326,11 @@ void World::addEnemies()
 	addEnemy(AircraftID::Raptor, +100.f, 500.f);
 	addEnemy(AircraftID::Raptor, +100.f, 600.f);
 	addEnemy(AircraftID::Raptor, -100.f, 650.f);
-	addEnemy(AircraftID::Avenger, 70.f, 650.f);
-	addEnemy(AircraftID::Avenger, -70.f, 650.f);
+	addEnemy(AircraftID::Raptor, 70.f, 650.f);
+	addEnemy(AircraftID::Raptor, -70.f, 650.f);
 
-	addEnemy(AircraftID::Avenger, -70.f, 700.f);
-	addEnemy(AircraftID::Avenger, 70.f, 700.f);
+	addEnemy(AircraftID::Raptor, -70.f, 700.f);
+	addEnemy(AircraftID::Raptor, 70.f, 700.f);
 	addEnemy(AircraftID::Avenger, 30.f, 800.f);
 	addEnemy(AircraftID::Raptor, 300.f, 800.f);
 	addEnemy(AircraftID::Raptor, -300.f, 900.f);
@@ -341,13 +341,53 @@ void World::addEnemies()
 	addEnemy(AircraftID::Raptor, 0.f, 1100.f);
 	addEnemy(AircraftID::Raptor, 250.f, 1200.f);
 	addEnemy(AircraftID::Raptor, -250.f, 1200.f);
-	addEnemy(AircraftID::Avenger, 0.f, 1300.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1300.f);
 	addEnemy(AircraftID::Avenger, 0.f, 1300.f);
 	addEnemy(AircraftID::Raptor, 0.f, 1400.f);
 	addEnemy(AircraftID::Avenger, 0.f, 1400.f);
 	addEnemy(AircraftID::Avenger, -200.f, 1500.f);
 	addEnemy(AircraftID::Raptor, 200.f, 1600.f);
 	addEnemy(AircraftID::Raptor, 0.f, 1650.f);
+
+	addEnemy(AircraftID::Raptor, -70.f, 1650.f);
+	addEnemy(AircraftID::Raptor, 70.f, 1700.f);
+	addEnemy(AircraftID::Avenger, 30.f, 1700.f);
+	addEnemy(AircraftID::Raptor, 300.f, 1750.f);
+	addEnemy(AircraftID::Raptor, -300.f, 1750.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1800.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1800.f);
+	addEnemy(AircraftID::Avenger, -300.f, 1900.f);
+	addEnemy(AircraftID::Avenger, -300.f, 1900.f);
+	addEnemy(AircraftID::Raptor, 0.f, 1950.f);
+	addEnemy(AircraftID::Raptor, 250.f, 1950.f);
+	addEnemy(AircraftID::Raptor, -250.f, 2000.f);
+	addEnemy(AircraftID::Raptor, 0.f, 2500.f);
+	addEnemy(AircraftID::Avenger, 0.f, 2500.f);
+	addEnemy(AircraftID::Raptor, 0.f, 2550.f);
+	addEnemy(AircraftID::Avenger, 0.f, 2550.f);
+	addEnemy(AircraftID::Avenger, -200.f, 3000.f);
+	addEnemy(AircraftID::Raptor, 200.f, 3000.f);
+	addEnemy(AircraftID::Raptor, 0.f, 3050.f);
+
+	addEnemy(AircraftID::Raptor, -70.f, 3050.f);
+	addEnemy(AircraftID::Raptor, 70.f, 4000.f);
+	addEnemy(AircraftID::Avenger, 30.f, 4000.f);
+	addEnemy(AircraftID::Raptor, 300.f, 4050.f);
+	addEnemy(AircraftID::Raptor, -300.f, 4050.f);
+	addEnemy(AircraftID::Raptor, 0.f, 5000.f);
+	addEnemy(AircraftID::Raptor, 0.f, 5000.f);
+	addEnemy(AircraftID::Avenger, -300.f, 6000.f);
+	addEnemy(AircraftID::Avenger, -300.f, 6000.f);
+	addEnemy(AircraftID::Raptor, 0.f, 7050.f);
+	addEnemy(AircraftID::Raptor, 250.f, 7050.f);
+	addEnemy(AircraftID::Raptor, -250.f, 8000.f);
+	addEnemy(AircraftID::Raptor, 0.f, 8500.f);
+	addEnemy(AircraftID::Avenger, 0.f, 8500.f);
+	addEnemy(AircraftID::Raptor, 0.f, 9000.f);
+	addEnemy(AircraftID::Avenger, 0.f, 9000.f);
+	addEnemy(AircraftID::Avenger, -200.f, 9050.f);
+	addEnemy(AircraftID::Raptor, 200.f, 9050.f);
+	addEnemy(AircraftID::Raptor, 0.f, 10000.f);
 
 	// Sort all enemies according to their y value, such that lower enemies are checked first for spawning
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(), [](SpawnPoint lhs, SpawnPoint rhs)
