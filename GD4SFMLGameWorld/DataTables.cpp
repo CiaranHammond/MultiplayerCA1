@@ -17,14 +17,14 @@ std::vector<AircraftData> initializeAircraftData()
 	data[static_cast<int>(PersonID::Player)].hitpoints = 100;
 	data[static_cast<int>(PersonID::Player)].speed = 200.f;
 	data[static_cast<int>(PersonID::Player)].fireInterval = sf::seconds(1);
-	data[static_cast<int>(PersonID::Player)].textureRect = sf::IntRect(0, 0, 48, 64);
+	data[static_cast<int>(PersonID::Player)].textureRect = sf::IntRect(0, 0, 48, 100);
 	data[static_cast<int>(PersonID::Player)].texture = TextureID::Entities;
 	data[static_cast<int>(PersonID::Player)].hasRollAnimation = true;
 
 	data[static_cast<int>(PersonID::Player2)].hitpoints = 100;
 	data[static_cast<int>(PersonID::Player2)].speed = 200.f;
 	data[static_cast<int>(PersonID::Player2)].fireInterval = sf::seconds(1);
-	data[static_cast<int>(PersonID::Player2)].textureRect = sf::IntRect(0, 0, 48, 64);
+	data[static_cast<int>(PersonID::Player2)].textureRect = sf::IntRect(0, 0, 48, 100);
 	data[static_cast<int>(PersonID::Player2)].texture = TextureID::Entities;
 	data[static_cast<int>(PersonID::Player2)].hasRollAnimation = true;
 
@@ -32,7 +32,7 @@ std::vector<AircraftData> initializeAircraftData()
 	data[static_cast<int>(PersonID::Zombie)].speed = 80.f;
 	data[static_cast<int>(PersonID::Zombie)].fireInterval = sf::Time::Zero;
 	data[static_cast<int>(PersonID::Zombie)].texture = TextureID::Entities;
-	data[static_cast<int>(PersonID::Zombie)].textureRect = sf::IntRect(144, 0, 84, 64);
+	data[static_cast<int>(PersonID::Zombie)].textureRect = sf::IntRect(228, 0, 50, 100);
 
 	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+45.f, 80.f));
 	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(-45.f, 160.f));
@@ -43,7 +43,7 @@ std::vector<AircraftData> initializeAircraftData()
 	data[static_cast<int>(PersonID::SpecialZombie)].speed = 50.f;
 	data[static_cast<int>(PersonID::SpecialZombie)].fireInterval = sf::seconds(2);
 	data[static_cast<int>(PersonID::SpecialZombie)].texture = TextureID::Entities;
-	data[static_cast<int>(PersonID::SpecialZombie)].textureRect = sf::IntRect(228, 0, 60, 59);
+	data[static_cast<int>(PersonID::SpecialZombie)].textureRect = sf::IntRect(150, 0, 70, 100);
 	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+45.f, 50.f));
 	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(0.f, 50.f));
 	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(-45.f, 100.f));

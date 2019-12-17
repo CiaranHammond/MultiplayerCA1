@@ -26,6 +26,8 @@ PauseState::PauseState(StateStack& stack, Context context)
 	centreOrigin(mInstructionText);
 	mInstructionText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
 	getContext().music->setPaused(true);
+
+	context.music->play(MusicID::PauseTheme);
 }
 
 PauseState::~PauseState()
