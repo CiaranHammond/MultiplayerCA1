@@ -49,7 +49,6 @@ void Entity::repair(int points)
 //the points being put in are 0 so it was breaking
 void Entity::damage(int points)
 {
-	std::cout << points << std::endl;
 	assert(points >= 0);
 	mHitpoints -= points;
 }

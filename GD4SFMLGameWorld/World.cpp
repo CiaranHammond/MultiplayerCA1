@@ -1,6 +1,7 @@
 #include "World.hpp"
 #include "ParticleID.hpp"
 #include "ParticleNode.hpp"
+#include <iostream>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -153,6 +154,16 @@ void World::handleCollisions()
 			enemy.destroy();
 		}
 
+		else if (matchesCategories(pair, CategoryID::Player2Aircraft, CategoryID::EnemyAircraft))
+		{
+			auto& player2 = static_cast<Aircraft&>(*pair.first);
+			auto& enemy = static_cast<Aircraft&>(*pair.second);
+
+			//Collision: Player damage = enemy's remaining HP
+			player2.damage(enemy.getHitpoints());
+			enemy.destroy();
+		}
+
 		else if (matchesCategories(pair, CategoryID::PlayerAircraft, CategoryID::Pickup))
 		{
 			auto& player = static_cast<Aircraft&>(*pair.first);
@@ -164,8 +175,20 @@ void World::handleCollisions()
 			pickup.destroy();
 		}
 
+		else if (matchesCategories(pair, CategoryID::Player2Aircraft, CategoryID::Pickup))
+		{
+			auto& player2 = static_cast<Aircraft&>(*pair.first);
+			auto& pickup = static_cast<Pickup&>(*pair.second);
+
+			// Apply pickup effect to player, destroy projectile
+			pickup.apply(player2);
+			player2.playerLocalSound(mCommandQueue, SoundEffectID::CollectPickup);
+			pickup.destroy();
+		}
+
 		else if (matchesCategories(pair, CategoryID::EnemyAircraft, CategoryID::AlliedProjectile)
-			|| matchesCategories(pair, CategoryID::PlayerAircraft, CategoryID::EnemyProjectile))
+			|| matchesCategories(pair, CategoryID::PlayerAircraft, CategoryID::EnemyProjectile)
+			|| matchesCategories(pair, CategoryID::Player2Aircraft, CategoryID::EnemyProjectile))
 		{
 			auto& aircraft = static_cast<Aircraft&>(*pair.first);
 			auto& projectile = static_cast<Projectile&>(*pair.second);

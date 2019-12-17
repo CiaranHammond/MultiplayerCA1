@@ -286,7 +286,7 @@ void Aircraft::checkPickupDrop(CommandQueue& commands)
 void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 {
 	// Enemies try to fire all the time
-	if (!isAllied())
+	if (!isAllied() && !isAllied2())
 		fire();
 
 	// Check for automatic gunfire, allow only in intervals
@@ -316,7 +316,7 @@ void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 
 void Aircraft::createBullets(SceneNode& node, const TextureHolder& textures) const
 {
-	ProjectileID type = isAllied() ? ProjectileID::AlliedBullet : ProjectileID::EnemyBullet;
+	ProjectileID type = isAllied() || isAllied2() ? ProjectileID::AlliedBullet : ProjectileID::EnemyBullet;
 
 	switch (mSpreadLevel)
 	{
