@@ -331,21 +331,15 @@ void World::addEnemies()
 
 	addEnemy(PersonID::Zombie, -70.f, 700.f);
 	addEnemy(PersonID::Zombie, 70.f, 700.f);
-	addEnemy(PersonID::SpecialZombie, 30.f, 800.f);
 	addEnemy(PersonID::Zombie, 300.f, 800.f);
 	addEnemy(PersonID::Zombie, -300.f, 900.f);
 	addEnemy(PersonID::Zombie, 0.f, 900.f);
 	addEnemy(PersonID::Zombie, 0.f, 1000.f);
-	addEnemy(PersonID::SpecialZombie, -300.f, 1000.f);
-	addEnemy(PersonID::SpecialZombie, -300.f, 1100.f);
 	addEnemy(PersonID::Zombie, 0.f, 1100.f);
 	addEnemy(PersonID::Zombie, 250.f, 1200.f);
 	addEnemy(PersonID::Zombie, -250.f, 1200.f);
 	addEnemy(PersonID::Zombie, 0.f, 1300.f);
-	addEnemy(PersonID::SpecialZombie, 0.f, 1300.f);
 	addEnemy(PersonID::Zombie, 0.f, 1400.f);
-	addEnemy(PersonID::SpecialZombie, 0.f, 1400.f);
-	addEnemy(PersonID::SpecialZombie, -200.f, 1500.f);
 	addEnemy(PersonID::Zombie, 200.f, 1600.f);
 	addEnemy(PersonID::Zombie, 0.f, 1650.f);
 

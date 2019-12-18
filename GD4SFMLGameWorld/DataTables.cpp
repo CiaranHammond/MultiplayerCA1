@@ -34,9 +34,9 @@ std::vector<AircraftData> initializeAircraftData()
 	data[static_cast<int>(PersonID::Zombie)].texture = TextureID::Entities;
 	data[static_cast<int>(PersonID::Zombie)].textureRect = sf::IntRect(228, 0, 50, 100);
 
-	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+45.f, 80.f));
-	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(-45.f, 160.f));
-	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+45.f, 80.f));
+	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+20.f, 80.f));
+	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(-20.f, 80.f));
+	data[static_cast<int>(PersonID::Zombie)].directions.push_back(Direction(+20.f, 80.f));
 	data[static_cast<int>(PersonID::Zombie)].hasRollAnimation = false;
 
 	data[static_cast<int>(PersonID::SpecialZombie)].hitpoints = 40;
@@ -44,11 +44,11 @@ std::vector<AircraftData> initializeAircraftData()
 	data[static_cast<int>(PersonID::SpecialZombie)].fireInterval = sf::seconds(2);
 	data[static_cast<int>(PersonID::SpecialZombie)].texture = TextureID::Entities;
 	data[static_cast<int>(PersonID::SpecialZombie)].textureRect = sf::IntRect(150, 0, 70, 100);
-	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+45.f, 50.f));
-	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(0.f, 50.f));
-	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(-45.f, 100.f));
-	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(0.f, 50.f));
-	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+45.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+30.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(-50.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+30.f, 100.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(-25.f, 50.f));
+	data[static_cast<int>(PersonID::SpecialZombie)].directions.push_back(Direction(+30.f, 50.f));
 	data[static_cast<int>(PersonID::SpecialZombie)].hasRollAnimation = false;
 	data[static_cast<int>(PersonID::SpecialZombie)].hasRollAnimation = false;
 
